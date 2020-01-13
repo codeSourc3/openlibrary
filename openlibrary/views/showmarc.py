@@ -1,12 +1,10 @@
 """
-Hook to show mark details in Open Library.
+Hook to show MARC or other source record details in Open Library.
 """
 from .. import app
 
 import web
 import urllib2
-import os.path
-import sys
 import re
 
 class old_show_marc(app.view):
@@ -65,6 +63,7 @@ class show_ia(app.view):
         template.v2 = True
         return template
 
+
 class show_amazon(app.view):
     path = "/show-records/amazon:(.*)"
 
@@ -72,6 +71,16 @@ class show_amazon(app.view):
         template = app.render_template("showamazon", asin)
         template.v2 = True
         return template
+
+
+class show_bwb(app.view):
+    path = "/show-records/bwb:(.*)"
+
+    def GET(self, isbn):
+        template = app.render_template("showbwb", isbn)
+        template.v2 = True
+        return template
+
 
 re_bad_meta_mrc = re.compile('^([^/]+)_meta\.mrc$')
 re_lc_sanfranpl = re.compile('^sanfranpl(\d+)/sanfranpl(\d+)\.out')
